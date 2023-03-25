@@ -34,6 +34,7 @@ async function updateRating (req,res,next) {
   const combined=[]
   const dbplayers=await db.collection('players').findOne()
 const playerArr=dbplayers.players  
+ try{ 
   const res1 = await fetch('https://fantasy.premierleague.com/api/bootstrap-static/');
   const data = await res1.json();
   const footballers = data.elements.filter(element => element.element_type >= 2 && element.element_type <= 4);
@@ -47,9 +48,11 @@ const playerArr=dbplayers.players
       nowcost:i.now_cost,
     }
     player.push(players)
-  });
+  });}
 
-  
+  catch(err) {
+    return err
+  }
   await Promise.all(playerArr.map(async (i) => {
     await Promise.all(i.response.map(async (k) => {
       await Promise.all(player.map(async (j) => {
