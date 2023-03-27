@@ -58,7 +58,6 @@ const signed= jwt.sign(payload ,process.env.ACCESS_TOKEN, { expiresIn: '20m' })
 const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN)
 await db.collection('users').findOneAndUpdate({email:email},{$set:{refreshToken:refreshToken}} )
 res.status(200).send({jwtToken:signed,refreshToken:refreshToken})
-// Send a response to the client
 })
 
 app.post('/auth',auth,async (req,res)=>{
